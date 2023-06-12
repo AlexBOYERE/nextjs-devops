@@ -38,16 +38,8 @@ jobs:
     runs-on: ubuntu-latest
     environment: production
     steps:
-      - name: deploy
-        uses: appleboy/ssh-action@master
+      - uses: webfactory/ssh-agent@v0.8.0
         with:
-          host: ${{ secrets.SSH_HOST }}
-          username: ${{ secrets.SSH_USER }}
-          key: ${{ secrets.SSH_KEY }}
-          script: |
-            echo "deploying"
-#            cd /home/ubuntu/next-cypress-app
-#            git pull
-#            npm install
-#            npm run build
-#            npm run start
+          ssh-private-key: ${{ secrets.SSH_KEY }}
+      - run: ssh -o StrictHostKeyChecking=no ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }} "ls"
+
