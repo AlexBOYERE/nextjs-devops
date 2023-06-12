@@ -34,3 +34,20 @@ jobs:
             node_modules
             /home/runner/.cache/Cypress
           key: ${{ runner.os }}-node-${{ hashFiles('**/package-lock.json') }}
+  deploy:
+    runs-on: ubuntu-latest
+    environment: production
+    steps:
+      - name: deploy
+        uses: appleboy/ssh-action@master
+        with:
+          host: ${{ secrets.HOST }}
+          username: ${{ secrets.USER }}
+          key: ${{ secrets.KEY }}
+          port: 3000
+          script: |
+            cd /home/ubuntu/next-cypress-app
+            git pull
+            npm install
+            npm run build
+            npm run start
