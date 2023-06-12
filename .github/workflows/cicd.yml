@@ -8,7 +8,7 @@ jobs:
       - run: npm run build
       - uses: cypress-io/github-action@v5
         with:
-          command: npx cypress run
+          build: npm run build
+          start: npm run start
           browser: firefox
           headed: false
-          record: true
