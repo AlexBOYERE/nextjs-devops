@@ -10,6 +10,7 @@ jobs:
         with:
           build: npm run build
           start: npm run start
+          browser: firefox
       - uses: actions/upload-artifact@v3
         if: ${{ always() }}
         with:
