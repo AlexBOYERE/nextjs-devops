@@ -11,3 +11,5 @@ jobs:
         with:
           browser: firefox
           headed: false
+          record: true
+          start: npm run start
