@@ -46,8 +46,9 @@ jobs:
           key: ${{ secrets.SSH_KEY }}
           port: 3000
           script: |
-            cd /home/ubuntu/next-cypress-app
-            git pull
-            npm install
-            npm run build
-            npm run start
+            echo "deploying"
+#            cd /home/ubuntu/next-cypress-app
+#            git pull
+#            npm install
+#            npm run build
+#            npm run start
