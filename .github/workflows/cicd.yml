@@ -43,9 +43,10 @@ jobs:
         with:
           ssh-private-key: ${{ secrets.SSH_KEY }}
       - run: |
-          ssh -o StrictHostKeyChecking=no ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }} "\ 
+          ssh -o StrictHostKeyChecking=no ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }} "\
           cd next-cypress-app && \
-          git pull && npm install && \
+          git pull && \
+          npm install && \
           npm run build && \
-          pm2 restart next-cypress-app"
+          pm2 restart all"
 
