@@ -1,5 +1,7 @@
 FROM debian:10 AS nodejs-my-website
 
+LABEL org.opencontainers.image.source https://github.com/alexboyere/nextjs-devops
+
 RUN apt-get update -yq \
 && apt-get install curl gnupg -yq \
 && curl -sL https://deb.nodesource.com/setup_18.x | bash \
