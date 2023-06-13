@@ -47,13 +47,17 @@ jobs:
           npm install && \
           npm run build && \
           pm2 restart all"
-  docker-auth:
+  docker-build-push:
     runs-on: ubuntu-latest
     steps:
-      -
-        name: login to GitHub Container Registry
+      - name: login to GitHub Container Registry
         uses: docker/login-action@v2
         with:
           registry: ghcr.io
           username: ${{ github.actor }}
           password: ${{ secrets.TOKEN }}
+      - name: Build and push
+        uses: docker/build-push-action@v4
+        with:
+          push: true
+          tags: ghcr.io/alexboyere/next-cypress-app:latest
