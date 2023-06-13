@@ -1,52 +1,58 @@
 on: [ push ]
 jobs:
-  build:
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v3
-      - run: npm install
-      - run: npm run build
-      #      - uses: ./.github/workflows/composite-actions
-      - uses: actions/cache@v3
-        with:
-          path: |
-            node_modules
-            /home/runner/.cache/Cypress
-          key: ${{ runner.os }}-node-${{ hashFiles('**/package-lock.json') }}
-  tests:
-    runs-on: ubuntu-latest
-    needs: build
-    steps:
-      - uses: actions/checkout@v3
-      - uses: cypress-io/github-action@v5
-        with:
-          build: npm run build
-          start: npm run start
-      - uses: actions/upload-artifact@v3
-        if: ${{ always() }}
-        with:
-          name: cypress-videos
-          path: cypress/videos
-      #      - uses: ./.github/workflows/composite-actions
-      - uses: actions/cache@v3
-        with:
-          path: |
-            node_modules
-            /home/runner/.cache/Cypress
-          key: ${{ runner.os }}-node-${{ hashFiles('**/package-lock.json') }}
-  deploy:
-    runs-on: ubuntu-latest
-    steps:
-      - uses: webfactory/ssh-agent@v0.8.0
-        with:
-          ssh-private-key: ${{ secrets.SSH_KEY }}
-      - run: |
-          ssh -o StrictHostKeyChecking=no ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }} "\
-          cd nextjs-devops && \
-          git pull && \
-          npm install && \
-          npm run build && \
-          pm2 restart all"
+#
+#  OK
+#  build:
+#    runs-on: ubuntu-latest
+#    steps:
+#      - uses: actions/checkout@v3
+#      - run: npm install
+#      - run: npm run build
+#      #      - uses: ./.github/workflows/composite-actions
+#      - uses: actions/cache@v3
+#        with:
+#          path: |
+#            node_modules
+#            /home/runner/.cache/Cypress
+#          key: ${{ runner.os }}-node-${{ hashFiles('**/package-lock.json') }}
+#
+#  OK
+#  tests:
+#    runs-on: ubuntu-latest
+#    needs: build
+#    steps:
+#      - uses: actions/checkout@v3
+#      - uses: cypress-io/github-action@v5
+#        with:
+#          build: npm run build
+#          start: npm run start
+#      - uses: actions/upload-artifact@v3
+#        if: ${{ always() }}
+#        with:
+#          name: cypress-videos
+#          path: cypress/videos
+#      #      - uses: ./.github/workflows/composite-actions
+#      - uses: actions/cache@v3
+#        with:
+#          path: |
+#            node_modules
+#            /home/runner/.cache/Cypress
+#          key: ${{ runner.os }}-node-${{ hashFiles('**/package-lock.json') }}
+#
+#  NOT OK - SSH
+#  deploy:
+#    runs-on: ubuntu-latest
+#    steps:
+#      - uses: webfactory/ssh-agent@v0.8.0
+#        with:
+#          ssh-private-key: ${{ secrets.SSH_KEY }}
+#      - run: |
+#          ssh -o StrictHostKeyChecking=no ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }} "\
+#          cd nextjs-devops && \
+#          git pull && \
+#          npm install && \
+#          npm run build && \
+#          pm2 restart all"
   docker-build-push:
     runs-on: ubuntu-latest
     steps:
