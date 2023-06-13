@@ -42,12 +42,12 @@ jobs:
           ssh-private-key: ${{ secrets.SSH_KEY }}
       - run: |
           ssh -o StrictHostKeyChecking=no ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }} "\
-          cd next-cypress-app && \
+          cd nextjs-devops && \
           git pull && \
           npm install && \
           npm run build && \
           pm2 restart all"
-  docker-push:
+  docker-auth:
     runs-on: ubuntu-latest
     steps:
       -
