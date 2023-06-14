@@ -6,3 +6,11 @@ services:
     volumes:
       - ./:/app
     command: npm run dev
+
+  db:
+    image: mariadb:10.6
+    restart: always
+    environment:
+      MARIADB_DATABASE: cube
+      MARIADB_USER: cube
+      MARIADB_PASSWORD: cube
