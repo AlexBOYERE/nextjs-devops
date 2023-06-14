@@ -1,6 +1,6 @@
 services:
   next:
-    image: ghcr.io/alexispe/cesi-next-cicd:latest
+    image: ghcr.io/alexboyere/next-cypress-app:latest
     restart: always
     ports:
       - 3000:3000
