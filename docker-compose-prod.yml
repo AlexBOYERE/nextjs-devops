@@ -8,5 +8,4 @@ services:
     image: containrrr/watchtower
     volumes:
       - /var/run/docker.sock:/var/run/docker.soc
-    command:
-      - --interval 30
+    command: --interval 30
