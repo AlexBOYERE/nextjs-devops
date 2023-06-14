@@ -6,7 +6,6 @@ services:
     volumes:
       - ./:/app
     command: npm run dev
-
   db:
     image: mariadb:10.6
     restart: always

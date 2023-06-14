@@ -48,7 +48,7 @@ jobs:
   #          ssh-private-key: ${{ secrets.SSH_KEY }}
   #      - run: |
   #          ssh -o StrictHostKeyChecking=no ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }} "\
-  #          cd nextjs-devops && \
+  #          cd devops && \
   #          git pull && \
   #          npm install && \
   #          npm run build && \
@@ -67,16 +67,24 @@ jobs:
         with:
           push: true
           tags: ghcr.io/alexboyere/next-cypress-app:latest
-  docker-deploy:
+#
+#  OK
+#  docker-deploy:
+#    runs-on: ubuntu-latest
+#    needs: docker-build-push
+#    steps:
+#      - uses: webfactory/ssh-agent@v0.8.0
+#        with:
+#          ssh-private-key: ${{ secrets.SSH_KEY }}
+#      - run: |
+#          ssh -o StrictHostKeyChecking=no ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }} "\
+#          docker pull ghcr.io/alexboyere/next-cypress-app:latest && \
+#          docker stop next && \
+#          docker rm next && \
+#          docker run -d -p 3000:3000 --name next ghcr.io/alexboyere/next-cypress-app:latest"
+
+  watchtower:
     runs-on: ubuntu-latest
-    needs: docker-build-push
+    needs: [docker-deploy, docker-build-push]
     steps:
-      - uses: webfactory/ssh-agent@v0.8.0
-        with:
-          ssh-private-key: ${{ secrets.SSH_KEY }}
-      - run: |
-          ssh -o StrictHostKeyChecking=no ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }} "\
-          docker pull ghcr.io/alexboyere/next-cypress-app:latest && \
-          docker stop next && \
-          docker rm next && \
-          docker run -d -p 3000:3000 --name next ghcr.io/alexboyere/next-cypress-app:latest"
+      - uses:
