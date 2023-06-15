@@ -6,7 +6,7 @@ services:
       - reverse-proxy
     labels:
       - "traefik.enable=true"
-      - "traefik.http.routers.next-prod.rule=PathPrefix(`/`)"
+      - "traefik.http.routers.next-prod.rule=Host(`ec2-54-152-226-58.compute-1.amazonaws.com`) && PathPrefix(`/`)"
       - "traefik.http.routers.next-prod.entrypoints=web"
 
   db:
