@@ -4,8 +4,32 @@ services:
     restart: always
     ports:
       - 3000:3000
-  watchtower:
-    image: containrrr/watchtower
+    labels:
+      - traefik.http.routers.next.rule=Host(`/`)
+      - traefik.http.routers.next.tls.certresolver=letsencrypt
+      - traefik.http.routers.next.tls=true
+      - traefik.port=8080
+    networks:
+      - web
+
+  db:
+    image: mariadb:10.6
+    environment:
+      MARIADB_DATABASE: cube
+      MARIADB_USER: cube
+      MARIADB_PASSWORD: cube
+      MARIADB_RANDOM_ROOT_PASSWORD: "yes"
     volumes:
-      - /var/run/docker.sock:/var/run/docker.sock
-    command: --interval 30
+      - ./docker/db/data:/var/lib/mysql
+
+  adminer:
+    image: adminer
+    ports:
+      - 8080:8080
+    labels:
+      - traefik.http.routers.adminer.rule=Host(`/adminer`)
+      - traefik.http.routers.adminer.tls.certresolver=letsencrypt
+      - traefik.http.routers.adminer.tls=true
+      - traefik.port=8080
+    networks:
+      - web
